@@ -3,7 +3,7 @@ import logo from '../../../assets/logo.svg'
 
 const Footer = () => {
     return (
-        <footer className="footer p-10 bg-base-200 text-base-content">
+        <footer className="footer p-32 bg-base-200 text-base-content">
             <div className='footer-center'>
                 <div>
                     <img className='inline-block fill-current' src={logo} alt="" />
