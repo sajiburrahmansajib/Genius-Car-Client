@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/logo.svg'
+import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
+
 
 const Header = () => {
+
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                alert('Successfully LogOut');
+            })
+            .catch(error => {
+                console.log('error', error);
+            })
+    }
+
     const menuItems = <>
         <li className='font-semibold'><Link to='/'>Home</Link></li>
         <li className='font-semibold'><Link to='/services'>Services</Link></li>
+        <li className='font-semibold'><Link to='/orders'>Orders</Link></li>
         <li className='font-semibold'><Link to='/blog'>Blog</Link></li>
-        <li className='font-semibold'><Link to='/login'>Login</Link></li>
+
         <li className='font-semibold'><Link to='/about'>About Us</Link></li>
+        {user?.uid ?
+            <li onClick={handleLogOut} className='font-semibold'><Link to='/login'>Log Out</Link></li>
+            :
+            <li className='font-semibold'><Link to='/login'>Login</Link></li>
+
+        }
     </>
 
     return (
@@ -32,6 +54,7 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
+                <button className="btn btn-outline  text-green-500  mr-4">{user?.uid ? user?.email : 'User'}</button>
                 <button className="btn btn-outline btn-warning uppercase">Appointment</button>
             </div>
         </div>
