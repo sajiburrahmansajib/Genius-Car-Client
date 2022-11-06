@@ -4,20 +4,29 @@ import OrderCard from './OrderCard';
 
 const OrdersReview = () => {
 
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/orders?email=${user?.email}`)
-            .then(res => res.json())
+        fetch(`https://genius-car-server-eight-kappa.vercel.app/orders?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('geniusCarToken')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    return logOut()
+                }
+                return res.json()
+            })
             .then(data => setOrders(data))
 
-    }, [user?.email]);
+    }, [user?.email, logOut]);
 
     const handleDelete = id => {
         const accept = window.confirm('Are you sure , You want to cancel this order');
         console.log(accept)
         if (accept) {
-            fetch(`http://localhost:5000/orders/${id}`, {
+            fetch(`https://genius-car-server-eight-kappa.vercel.app/orders/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -33,7 +42,7 @@ const OrdersReview = () => {
 
     };
     const handleStatusUpdate = id => {
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://genius-car-server-eight-kappa.vercel.app/orders/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'

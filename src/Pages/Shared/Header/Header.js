@@ -20,13 +20,11 @@ const Header = () => {
 
     const menuItems = <>
         <li className='font-semibold'><Link to='/'>Home</Link></li>
-        <li className='font-semibold'><Link to='/services'>Services</Link></li>
-        <li className='font-semibold'><Link to='/orders'>Orders</Link></li>
-        <li className='font-semibold'><Link to='/blog'>Blog</Link></li>
-
-        <li className='font-semibold'><Link to='/about'>About Us</Link></li>
         {user?.uid ?
-            <li onClick={handleLogOut} className='font-semibold'><Link to='/login'>Log Out</Link></li>
+            <>
+                <li className='font-semibold'><Link to='/orders'>Orders</Link></li>
+                <li onClick={handleLogOut} className='font-semibold'><Link to='/login'>Log Out</Link></li>
+            </>
             :
             <li className='font-semibold'><Link to='/login'>Login</Link></li>
 
